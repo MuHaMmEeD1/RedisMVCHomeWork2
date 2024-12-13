@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model RedisElementsViewModel;
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="text-center">
+                <form asp-action="AddCName" method="post" class="d-flex justify-content-center mb-3">
+                    <input type="text" name="newCName" class="form-control me-2" id="inputMessage" placeholder="Mesaj yazın">
+                    <button type="submit" class="btn btn-primary" id="sendButton">Gönder</button>
+                </form>
+
+
+                @{
+                    if (Model.RedisValues != null && Model.RedisValues.Any())
+                    {
+                        foreach (var item in Model.RedisValues)
+                        {
+                            <form method="post" action="/Home/SelectCName">
+                                <input type="hidden" name="cName" value="@item" />
+                                <button type="submit" class="btn btn-secondary mb-2 d-block">@item</button>
+                            </form>
+                        }
+                    }
+                    else
+                    {
+                        <p>No Redis values available.</p>
+                    }
+                }
+              
+
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="text-center">
+                <div id="messageList">
+                    @{
+                        if (Model.Messages != null && Model.Messages.Any())
+                        {
+                            foreach (var item in Model.Messages)
+                            {
+                                <p>@item</p>
+                            }
+                        }
+                        else
+                        {
+                            <p>No messages available.</p>
+                        }
+                    }
+                    
+                   
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <form method="post" action="/Home/SendMessage" class="d-flex">
+                        <input type="text" class="form-control mt-3" id="messageInput" name="message" placeholder="Yeni mesaj">
+                        <button type="submit" class="btn btn-primary mt-3" id="sendMessageButton">Gönder</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
